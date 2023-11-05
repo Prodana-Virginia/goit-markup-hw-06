@@ -7,70 +7,18 @@
     <link href="https://fonts.googleapis.com/css2?family=Raleway&family=Roboto" rel="stylesheet">
     <link href="css/modern-normalize.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet" />
-
-
-    <script>
-        //am urmat pasii de aici pentru a putea vizualiza iconitele din sprite-ul SVG in browser
-        //https://davidwells.io/blog/fixing-broken-use-tags-from-inline-svg-sprites
-
-        document.addEventListener("DOMContentLoaded",
-            function () {
-                var useTag = document.querySelectorAll('use')
-                if (useTag && useTag.length) {
-                    // This is just checking first <use>
-                    const dimenisons = useTag[0].getBoundingClientRect();
-                    // If use tag is 0px tall, the inlined <use> reference failed.
-                    if (dimenisons.height === 0) {
-                        fixVisiblyEmptyUseTag(useTag[0])
-                    }
-                }
-            });
-
-        function fixVisiblyEmptyUseTag(useTag) {
-            // Grab the use tag xlink:href for finding the corresponding symbol
-            var id = useTag.getAttribute('xlink:href').replace("#", '');
-            // Grab parentNode to inline the already inlined SVG
-            var parentNode = useTag.parentNode
-            // kill broken use tag
-            parentNode.removeChild(useTag);
-            // Set class on parentNode to find this later
-            parentNode.setAttribute('class', 'svg-' + id)
-            // grab the actual SVG from the <defs>
-            var inlineSVG = document.getElementById(id)
-            // grab the actual SVG paths to inject in place of <use> tag
-            var inlineSVGPaths = inlineSVG.innerHTML
-            // grab viewbox attributes to make sure icons are correct size
-            var inlineSVGViewBox = inlineSVG.getAttribute('viewBox')
-            parentNode.setAttribute('viewBox', inlineSVGViewBox)
-            // Create a dummy receptacle
-            var receptacle = document.createElement('div');
-            // Wrap the svg string to a svg object (string)
-            var svgfragment = '<svg>' + inlineSVGPaths + '</svg>';
-            // Add all svg to the receptacle
-            receptacle.innerHTML = '' + svgfragment;
-            // Splice the childs of the SVG inside the receptacle to the SVG at the body
-            Array.prototype.slice.call(receptacle.childNodes[0].childNodes).forEach(function (el) {
-                // grab the matching parentNodes and insert the SVG inline in place of <use> tag
-                var SVGsOnPage = document.querySelectorAll('.svg-' + id)
-                for (var i = 0; i < SVGsOnPage.length; i++) {
-                    SVGsOnPage[i].appendChild(el);
-                }
-            });
-        }
-    </script>
-
-
 </head>
 <body>
 
-    <header class="header">
+    <header class="header page-header">
         <div class="container">
+
             <nav class="nav">
                 <a href="index.html" class="logo">
                     <span class="logo-web">Web</span>
                     <span>Studio</span>
                 </a>
-                <ul class="nav-list">
+                <ul class="nav-list menu">
                     <li class="nav-link"><a href="index.html" class="current">Studio</a></li>
                     <li class="nav-link"><a href="portfolio.html">Portofolio</a></li>
                     <li class="nav-link"><a href="contacts.html">Contacts</a></li>
@@ -96,8 +44,78 @@
                     </a>
                 </div>
             </nav>
+
+            <button class="menu-toggle js-open-menu"
+                    aria-expanded="false"
+                    aria-controls="mobile-menu">
+                <svg width="24"
+                     height="24"
+                     fill="currentColor"
+                     viewBox="0 0 20 20"
+                     xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd"
+                          d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                          clip-rule="evenodd"></path>
+                </svg>
+            </button>
         </div>
     </header>
+
+    <div class="menu-container js-menu-container" id="mobile-menu">
+        <button class="menu-toggle js-close-menu">
+            <svg fill="currentColor"
+                 viewBox="0 0 20 20"
+                 xmlns="http://www.w3.org/2000/svg"
+                 width="24"
+                 height="24">
+                <path fill-rule="evenodd"
+                      d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                      clip-rule="evenodd"></path>
+            </svg>
+        </button>
+
+        <a href="index.html" class="logo">
+            <span class="logo-web">Web</span>
+            <span>Studio</span>
+        </a>
+        <ul class="mobile-menu">
+            <li class="link"><a href="index.html" class="current">Studio</a></li>
+            <li class="link"><a href="portfolio.html">Portofolio</a></li>
+            <li class="link"><a href="contacts.html">Contacts</a></li>
+        </ul>
+
+        <div class="header-contact">
+            <a href="tel:+1-212-772-4150" class="phone">
+                +1-212-772-4150
+            </a>
+            <a href="mailto:info@yahoo.com">
+                info@devstudio.com
+            </a>
+
+            <div class="footer-social-links">
+                <div>
+                    <svg role="img" title="instagram" class="icon2">
+                        <use xlink:href="#icon-instagram-2" />
+                    </svg>
+                </div>
+                <div>
+                    <svg role="img" title="twitter" class="icon2">
+                        <use xlink:href="#icon-twitter-2" />
+                    </svg>
+                </div>
+                <div>
+                    <svg role="img" title="facebook" class="icon2">
+                        <use xlink:href="#icon-facebook-2" />
+                    </svg>
+                </div>
+                <div>
+                    <svg role="img" title="linkedin" class="icon2">
+                        <use xlink:href="#icon-linkedin-2" />
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <main>
         <section class="section studio-section">
@@ -119,7 +137,7 @@
                             </svg>
                         </div>
                         <div>
-                            <h3 class="skills-title">ATTENTION TO DETAILS</h3>
+                            <h3 class="skills-title">strategy</h3>
                             <p class="skills-desc">
                                 We go into all the details and processes
                                 of business to develop a
@@ -134,7 +152,7 @@
                             </svg>
                         </div>
                         <div>
-                            <h3 class="skills-title">PUNCTUALITY</h3>
+                            <h3 class="skills-title">punctuality</h3>
                             <p class="skills-desc">
                                 We with us, you can feel safe and secure.
                                 An important principle of the company:
@@ -149,7 +167,7 @@
                             </svg>
                         </div>
                         <div>
-                            <h3 class="skills-title">PLANNING</h3>
+                            <h3 class="skills-title">planning</h3>
                             <p class="skills-desc">
                                 You will be able to observe and
                                 participate in every phase of solution
@@ -164,7 +182,7 @@
                             </svg>
                         </div>
                         <div>
-                            <h3 class="skills-title">MODERN TECHNOLOGIES</h3>
+                            <h3 class="skills-title">technologies</h3>
                             <p class="skills-desc">
                                 We use innovative tools to solve
                                 assigned tasks. It's time to simplify work
@@ -205,7 +223,7 @@
                 <h2 class="team-heading">Our Team</h2>
                 <ul class="team-list">
                     <li class="team-item">
-                        <img src="./images/img-product-designer.jpg" alt="Cristopher Walker-Product Designer" width="270" height="260" />
+                        <img src="./images/img-product-designer-1.jpg" srcset="./images/img-product-designer-1.jpg 1x, ./images/img-product-designer-2.jpg 2x" alt="Cristopher Walker-Product Designer" width="270" height="260" />
                         <h3 class="team-title">Cristopher Walker</h3>
                         <p class="team-desc">Product Designer</p>
                         <div class="team-social-links">
@@ -244,7 +262,7 @@
                         </div>
                     </li>
                     <li class="team-item">
-                        <img src="./images/img-frontend-dev.jpg" alt="Kylie Evans-Frontend Developer" width="270" height="260" />
+                        <img src="./images/img-frontend-dev-1.jpg" srcset="./images/img-frontend-dev-1.jpg 1x, ./images/img-frontend-dev-2.jpg 2x" alt="Kylie Evans-Frontend Developer" width="270" height="260" />
                         <h3 class="team-title">Kylie Evans</h3>
                         <p class="team-desc">Frontend Developer</p>
                         <div class="team-social-links">
@@ -283,7 +301,7 @@
                         </div>
                     </li>
                     <li class="team-item">
-                        <img src="./images/img-marketing.jpg" alt="Ryan Harris-Marketing" width="270" height="260" />
+                        <img src="./images/img-marketing-1.jpg" srcset="./images/img-marketing-1.jpg 1x, ./images/img-marketing-2.jpg 2x" alt="Ryan Harris-Marketing" width="270" height="260" />
                         <h3 class="team-title">Ryan Harris</h3>
                         <p class="team-desc">Marketing</p>
                         <div class="team-social-links">
@@ -322,7 +340,7 @@
                         </div>
                     </li>
                     <li class="team-item">
-                        <img src="./images/img-ui-designer.jpg" alt="Tyler Moore-UI Designer" width="270" height="260" />
+                        <img src="./images/img-ui-designer-1.jpg" srcset="./images/img-ui-designer-1.jpg 1x, ./images/img-ui-designer-2.jpg 2x" alt="Tyler Moore-UI Designer" width="270" height="260" />
                         <h3 class="team-title">Tyler Moore</h3>
                         <p class="team-desc">UI Designer</p>
                         <div class="team-social-links">
@@ -366,7 +384,7 @@
 
         <section class="section customers-section">
             <div class="container">
-                <h2 class="customers-heading">Regular Customers</h2>
+                <h2 class="customers-heading">Customers</h2>
                 <ul class="customers-list">
                     <li class="customers-item">
                         <div>
@@ -587,7 +605,6 @@
         </div>
     </div>
 
-    <script src="./js/modal.js"></script>
 
     <svg aria-hidden="true" style="position: absolute; width: 0; height: 0; overflow: hidden;" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
         <defs>
@@ -860,5 +877,61 @@
         </defs>
     </svg>
 
+    <script defer
+            src="https://cdnjs.cloudflare.com/ajax/libs/body-scroll-lock/3.1.5/bodyScrollLock.min.js"
+            integrity="sha512-HowizSDbQl7UPEAsPnvJHlQsnBmU2YMrv7KkTBulTLEGz9chfBoWYyZJL+MUO6p/yBuuMO/8jI7O29YRZ2uBlA=="
+            crossorigin="anonymous"></script>
+    <script defer src="js/mobile-menu.js"></script>
+    <script src="js/modal.js"></script>
+
+    <script>
+        //am urmat pasii de aici pentru a putea vizualiza iconitele din sprite - ul SVG in browser
+        //https://davidwells.io/blog/fixing-broken-use-tags-from-inline-svg-sprites
+
+        document.addEventListener("DOMContentLoaded",
+            function () {
+                var useTag = document.querySelectorAll('use')
+                if (useTag && useTag.length) {
+                    // This is just checking first <use>
+                    const dimenisons = useTag[0].getBoundingClientRect();
+                    // If use tag is 0px tall, the inlined <use> reference failed.
+                    if (dimenisons.height === 0) {
+                        fixVisiblyEmptyUseTag(useTag[0])
+                    }
+                }
+            });
+
+        function fixVisiblyEmptyUseTag(useTag) {
+            // Grab the use tag xlink:href for finding the corresponding symbol
+            var id = useTag.getAttribute('xlink:href').replace("#", '');
+            // Grab parentNode to inline the already inlined SVG
+            var parentNode = useTag.parentNode
+            // kill broken use tag
+            parentNode.removeChild(useTag);
+            // Set class on parentNode to find this later
+            parentNode.setAttribute('class', 'svg-' + id)
+            // grab the actual SVG from the <defs>
+            var inlineSVG = document.getElementById(id)
+            // grab the actual SVG paths to inject in place of <use> tag
+            var inlineSVGPaths = inlineSVG.innerHTML
+            // grab viewbox attributes to make sure icons are correct size
+            var inlineSVGViewBox = inlineSVG.getAttribute('viewBox')
+            parentNode.setAttribute('viewBox', inlineSVGViewBox)
+            // Create a dummy receptacle
+            var receptacle = document.createElement('div');
+            // Wrap the svg string to a svg object (string)
+            var svgfragment = '<svg>' + inlineSVGPaths + '</svg>';
+            // Add all svg to the receptacle
+            receptacle.innerHTML = '' + svgfragment;
+            // Splice the childs of the SVG inside the receptacle to the SVG at the body
+            Array.prototype.slice.call(receptacle.childNodes[0].childNodes).forEach(function (el) {
+                // grab the matching parentNodes and insert the SVG inline in place of <use> tag
+                var SVGsOnPage = document.querySelectorAll('.svg-' + id)
+                for (var i = 0; i < SVGsOnPage.length; i++) {
+                    SVGsOnPage[i].appendChild(el);
+                }
+            });
+        }
+    </script>
 </body>
 </html>
